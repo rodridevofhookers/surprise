@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Para Safira 💚</title>
+  <title>Para Safira</title>
 
   <style>
 
@@ -13,99 +11,98 @@
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
+      font-family:Arial,sans-serif;
     }
 
     body{
+      background:#111;
+      overflow:hidden;
+    }
+
+    /* PRIMEIRA TELA */
+
+    .tela1{
+      width:100%;
       height:100vh;
-      background:#1f6b45;
+      background:#1f7549;
+
       display:flex;
+      flex-direction:column;
       justify-content:center;
       align-items:center;
-      overflow:hidden;
-      color:white;
-      position:relative;
-    }
 
-    canvas{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:5;
-    }
-
-    .container{
       text-align:center;
-      z-index:2;
+
       padding:20px;
     }
 
-    h1{
-      font-size:3rem;
-      margin-bottom:30px;
+    .tela1 h1{
+      font-size:58px;
+      color:white;
+      margin-bottom:40px;
+      font-weight:800;
     }
 
-    .btn{
-      background:white;
-      color:#1f6b45;
+    .tela1 button{
       border:none;
-      padding:15px 35px;
+      background:white;
+      color:#1f7549;
+
+      padding:18px 42px;
+
       border-radius:40px;
-      font-size:1rem;
+
+      font-size:18px;
       font-weight:bold;
+
       cursor:pointer;
+
       transition:0.3s;
     }
 
-    .btn:hover{
+    .tela1 button:hover{
       transform:scale(1.05);
     }
 
-    .mensagem{
+    /* SEGUNDA TELA */
+
+    .tela2{
       display:none;
-      margin-top:20px;
-      line-height:1.7;
+
+      width:100%;
+      min-height:100vh;
+
+      background:#1f7549;
+
+      color:white;
+
+      text-align:center;
+
+      padding:40px 25px;
+
+      animation:fade 0.8s ease;
+    }
+
+    .texto{
       max-width:500px;
-      animation:aparecer 1s ease;
+      margin:0 auto 35px;
+
+      font-size:18px;
+      line-height:1.8;
     }
 
     .foto{
-      display:none;
-      margin-top:30px;
-      animation:aparecer 1s ease;
+      width:100%;
+      max-width:350px;
+
+      border-radius:25px;
+
+      object-fit:cover;
+
+      box-shadow:0 0 25px rgba(0,0,0,0.25);
     }
 
-    .foto img{
-      width:320px;
-      border-radius:20px;
-      box-shadow:0 0 25px rgba(0,0,0,0.4);
-    }
-
-    /* IMAGENS */
-
-    .decoracao{
-      position:absolute;
-      opacity:0.14;
-      z-index:1;
-      pointer-events:none;
-      display:none;
-      animation:aparecer 1s ease;
-    }
-
-    .spiderman{
-      width:170px;
-      top:20px;
-      left:20px;
-    }
-
-    .harry{
-      width:170px;
-      bottom:20px;
-      right:20px;
-    }
-
-    @keyframes aparecer{
-
+    @keyframes fade{
       from{
         opacity:0;
         transform:translateY(20px);
@@ -115,7 +112,6 @@
         opacity:1;
         transform:translateY(0);
       }
-
     }
 
   </style>
@@ -123,40 +119,32 @@
 
 <body>
 
-  <!-- FOGOS -->
+  <!-- PRIMEIRA TELA -->
 
-  <canvas id="fogos"></canvas>
-
-  <!-- IMAGENS -->
-
-  <img src="spiderman.png"
-  class="decoracao spiderman"
-  id="spiderman">
-
-  <img src="harry.png"
-  class="decoracao harry"
-  id="harry">
-
-  <div class="container">
+  <section class="tela1" id="tela1">
 
     <h1>Para Safira 💚</h1>
 
-    <button class="btn" onclick="mostrarFoto()">
+    <button onclick="abrir()">
       abrir
     </button>
 
-    <p class="mensagem" id="mensagem">
-      essa música sempre vai me lembrar de quando a gente se aproximou,
-      e hoje eu tenho certeza que somos coisa de alma 💚
-    </p>
+  </section>
 
-    <div class="foto" id="foto">
-      <img src="foto.jpg">
+  <!-- SEGUNDA TELA -->
+
+  <section class="tela2" id="tela2">
+
+    <div class="texto">
+      essa música me lembra de quando nos aproximamos,
+      e hoje tenho certeza que somos coisa de alma 💚
     </div>
 
-  </div>
+    <img src="foto.jpg" class="foto">
 
-  <!-- MÚSICA -->
+  </section>
+
+  <!-- MUSICA -->
 
   <audio id="musica" loop>
     <source src="musica.mp3" type="audio/mpeg">
@@ -164,139 +152,23 @@
 
   <script>
 
-    /* FOGOS */
+    function abrir(){
 
-    const canvas = document.getElementById("fogos");
+      document
+      .getElementById("tela1")
+      .style.display = "none";
 
-    const ctx = canvas.getContext("2d");
+      document
+      .getElementById("tela2")
+      .style.display = "block";
 
-    canvas.width = window.innerWidth;
-
-    canvas.height = window.innerHeight;
-
-    let particulas = [];
-
-    window.addEventListener("resize", function(){
-
-      canvas.width = window.innerWidth;
-
-      canvas.height = window.innerHeight;
-
-    });
-
-    function mostrarFoto(){
-
-      document.getElementById("foto").style.display = "block";
-
-      document.getElementById("mensagem").style.display = "block";
-
-      document.getElementById("spiderman").style.display = "block";
-
-      document.getElementById("harry").style.display = "block";
-
-      document.getElementById("musica").play();
-
-      criarFogos();
+      document
+      .getElementById("musica")
+      .play();
 
     }
-
-    function criarFogos(){
-
-      for(let i = 0; i < 4; i++){
-
-        setTimeout(function(){
-
-          explosao(
-
-            Math.random() * canvas.width,
-
-            Math.random() * canvas.height * 0.6
-
-          );
-
-        }, i * 350);
-
-      }
-
-    }
-
-    function explosao(x, y){
-
-      const cores = [
-
-        "#ffffff",
-        "#ffd700",
-        "#ff4d6d",
-        "#7cffc4",
-        "#9dffb0"
-
-      ];
-
-      for(let i = 0; i < 70; i++){
-
-        particulas.push({
-
-          x:x,
-          y:y,
-
-          angulo:Math.random() * Math.PI * 2,
-
-          velocidade:Math.random() * 5 + 2,
-
-          raio:Math.random() * 3 + 2,
-
-          vida:100,
-
-          cor:cores[Math.floor(Math.random() * cores.length)]
-
-        });
-
-      }
-
-    }
-
-    function animar(){
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particulas.forEach(function(p, index){
-
-        p.x += Math.cos(p.angulo) * p.velocidade;
-
-        p.y += Math.sin(p.angulo) * p.velocidade;
-
-        p.velocidade *= 0.96;
-
-        p.vida--;
-
-        ctx.globalAlpha = p.vida / 100;
-
-        ctx.beginPath();
-
-        ctx.arc(p.x, p.y, p.raio, 0, Math.PI * 2);
-
-        ctx.fillStyle = p.cor;
-
-        ctx.fill();
-
-        if(p.vida <= 0){
-
-          particulas.splice(index, 1);
-
-        }
-
-      });
-
-      ctx.globalAlpha = 1;
-
-      requestAnimationFrame(animar);
-
-    }
-
-    animar();
 
   </script>
 
 </body>
-
 </html>
