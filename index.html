@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-
     *{
       margin:0;
       padding:0;
@@ -21,20 +20,15 @@
       overflow:hidden;
     }
 
-    /* PRIMEIRA TELA */
-
     .tela1{
       width:100%;
       height:100vh;
       background:#1f7549;
-
       display:flex;
       flex-direction:column;
       justify-content:center;
       align-items:center;
-
       text-align:center;
-
       padding:20px;
     }
 
@@ -49,16 +43,11 @@
       border:none;
       background:white;
       color:#1f7549;
-
       padding:18px 42px;
-
       border-radius:40px;
-
       font-size:18px;
       font-weight:bold;
-
       cursor:pointer;
-
       transition:0.3s;
     }
 
@@ -66,51 +55,60 @@
       transform:scale(1.05);
     }
 
-    /* SEGUNDA TELA */
-
     .tela2{
       display:none;
-
       width:100%;
       min-height:100vh;
-
       background:#1f7549;
-
       color:white;
-
       text-align:center;
-
       padding:40px 25px;
-
       animation:fade 0.8s ease;
+      position:relative;
+      overflow:hidden;
     }
 
     .texto{
-
       max-width:500px;
-
       margin:0 auto 35px;
-
       font-family:'Cormorant Garamond', serif;
-
       font-size:30px;
-
       line-height:1.5;
-
       font-weight:500;
-
       letter-spacing:0.5px;
+      position:relative;
+      z-index:2;
     }
 
     .foto{
       width:100%;
       max-width:350px;
-
       border-radius:25px;
-
       object-fit:cover;
-
       box-shadow:0 0 25px rgba(0,0,0,0.25);
+      position:relative;
+      z-index:2;
+    }
+
+    .rosa{
+      position:fixed;
+      top:-60px;
+      font-size:32px;
+      pointer-events:none;
+      animation:cair linear forwards;
+      z-index:999;
+    }
+
+    @keyframes cair{
+      0%{
+        transform:translateY(-60px) rotate(0deg);
+        opacity:1;
+      }
+
+      100%{
+        transform:translateY(110vh) rotate(360deg);
+        opacity:0;
+      }
     }
 
     @keyframes fade{
@@ -125,60 +123,74 @@
       }
     }
 
+    @media(max-width:600px){
+      .tela1 h1{
+        font-size:42px;
+      }
+
+      .texto{
+        font-size:26px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- PRIMEIRA TELA -->
-
   <section class="tela1" id="tela1">
-
     <h1>Para Safira 💚</h1>
 
     <button onclick="abrir()">
       abrir
     </button>
-
   </section>
 
-  <!-- SEGUNDA TELA -->
-
   <section class="tela2" id="tela2">
-
     <div class="texto">
       essa música me lembra de quando nos aproximamos,
       e hoje tenho certeza que somos coisa de alma 💚
     </div>
 
     <img src="foto.jpg" class="foto">
-
   </section>
-
-  <!-- MUSICA -->
 
   <audio id="musica" loop>
     <source src="musica.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-
     function abrir(){
+      document.getElementById("tela1").style.display = "none";
+      document.getElementById("tela2").style.display = "block";
 
-      document
-      .getElementById("tela1")
-      .style.display = "none";
+      document.getElementById("musica").play();
 
-      document
-      .getElementById("tela2")
-      .style.display = "block";
-
-      document
-      .getElementById("musica")
-      .play();
-
+      soltarRosas();
     }
 
+    function soltarRosas(){
+      for(let i = 0; i < 80; i++){
+        setTimeout(() => {
+          criarRosa();
+        }, i * 120);
+      }
+    }
+
+    function criarRosa(){
+      const rosa = document.createElement("div");
+      rosa.classList.add("rosa");
+      rosa.innerHTML = "🌹";
+
+      rosa.style.left = Math.random() * 100 + "vw";
+      rosa.style.fontSize = Math.random() * 25 + 25 + "px";
+      rosa.style.animationDuration = Math.random() * 3 + 3 + "s";
+
+      document.body.appendChild(rosa);
+
+      setTimeout(() => {
+        rosa.remove();
+      }, 6000);
+    }
   </script>
 
 </body>
